@@ -55,29 +55,33 @@ export default function MultiStepForm() {
     setError('');
 
     try {
-      // Airtable integration — replace with your actual base/table/key
-      const AIRTABLE_URL = import.meta.env.PUBLIC_AIRTABLE_URL || '';
+      const WEB3FORMS_KEY = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
 
-      if (AIRTABLE_URL) {
-        await fetch(AIRTABLE_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            fields: {
-              Name: form.name,
-              Email: form.email,
-              Phone: form.phone,
-              Company: form.company,
-              'Video Type': form.videoType,
-              'Budget Range': form.budget,
-              Timeline: form.timeline,
-              Description: form.description,
-              Source: form.source || 'Website Form',
-              Status: 'New',
-            },
-          }),
-        });
+      if (!WEB3FORMS_KEY) {
+        throw new Error('Form not configured');
       }
+
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: `New Lead: ${form.videoType} — ${form.name}`,
+          cc: 'crsproductions.info@gmail.com',
+          from_name: 'Lotus Reel Website',
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          company: form.company,
+          video_type: form.videoType,
+          budget_range: form.budget,
+          timeline: form.timeline,
+          description: form.description,
+          source: form.source || 'Website Form',
+        }),
+      });
+
+      if (!response.ok) throw new Error('Submit failed');
 
       setSubmitted(true);
     } catch {
@@ -295,7 +299,7 @@ export default function MultiStepForm() {
                 disabled={submitting || !form.name || !form.email}
                 class="flex-1 py-3 bg-primary-700 text-white font-semibold rounded-lg hover:bg-primary-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {submitting ? 'Sending...' : 'Get Your Free Quote'}
+                {submitting ? 'Sending...' : 'Get a Quote Fast'}
               </button>
             </div>
 

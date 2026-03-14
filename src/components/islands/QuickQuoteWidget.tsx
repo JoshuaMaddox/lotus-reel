@@ -10,22 +10,29 @@ export default function QuickQuoteWidget() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const AIRTABLE_URL = import.meta.env.PUBLIC_AIRTABLE_URL || '';
-      if (AIRTABLE_URL) {
-        await fetch(AIRTABLE_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            fields: {
-              Name: form.name,
-              Email: form.email,
-              Description: form.message,
-              Source: 'Quick Quote Widget',
-              Status: 'New',
-            },
-          }),
-        });
+      const WEB3FORMS_KEY = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
+
+      if (!WEB3FORMS_KEY) {
+        throw new Error('Form not configured');
       }
+
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: `Quick Quote Request — ${form.name}`,
+          cc: 'crsproductions.info@gmail.com',
+          from_name: 'Lotus Reel Website',
+          name: form.name,
+          email: form.email,
+          message: form.message,
+          source: 'Quick Quote Widget',
+        }),
+      });
+
+      if (!response.ok) throw new Error('Submit failed');
+
       setSubmitted(true);
     } catch {
       // Silently handle — user can use contact page as fallback
