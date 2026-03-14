@@ -1,0 +1,74 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  twitterCard?: 'summary' | 'summary_large_image';
+  noindex?: boolean;
+  article?: {
+    publishedTime: string;
+    modifiedTime?: string;
+    author: string;
+    section?: string;
+    tags?: string[];
+  };
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogImage = '/images/og-default.jpg',
+  ogType = 'website',
+  twitterCard = 'summary_large_image',
+  noindex = false,
+  article,
+} = Astro.props;
+
+const siteUrl = 'https://lotusreel.com';
+const canonicalUrl = canonical || new URL(Astro.url.pathname, siteUrl).href;
+const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, siteUrl).href;
+const fullTitle = title.includes('Lotus Reel') ? title : `${title} | Lotus Reel`;
+---
+
+<!-- Primary Meta -->
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!-- Open Graph -->
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:site_name" content="Lotus Reel" />
+<meta property="og:locale" content="en_US" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content={twitterCard} />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageUrl} />
+
+<!-- Article-specific meta -->
+{article && (
+  <>
+    <meta property="article:published_time" content={article.publishedTime} />
+    {article.modifiedTime && <meta property="article:modified_time" content={article.modifiedTime} />}
+    <meta property="article:author" content={article.author} />
+    {article.section && <meta property="article:section" content={article.section} />}
+    {article.tags?.map((tag) => <meta property="article:tag" content={tag} />)}
+  </>
+)}
+
+<!-- Geo -->
+<meta name="geo.region" content="TH-10" />
+<meta name="geo.placename" content="Bangkok" />
+
+<!-- Verification (replace with actual values) -->
+<!-- <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION" /> -->
+<!-- <meta name="msvalidate.01" content="YOUR_BING_VERIFICATION" /> -->

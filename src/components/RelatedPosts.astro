@@ -1,0 +1,37 @@
+---
+import BlogPostCard from './BlogPostCard.astro';
+import { getReadingTime } from '../utils/reading-time';
+
+interface Props {
+  posts: {
+    slug: string;
+    data: {
+      title: string;
+      description: string;
+      publishDate: Date;
+      category?: string;
+    };
+    body?: string;
+  }[];
+}
+
+const { posts } = Astro.props;
+---
+
+{posts.length > 0 && (
+  <section class="py-12">
+    <h2 class="text-2xl font-bold text-neutral-900 mb-8">Related Articles</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      {posts.slice(0, 3).map((post) => (
+        <BlogPostCard
+          title={post.data.title}
+          description={post.data.description}
+          href={`/blog/${post.slug}/`}
+          publishDate={post.data.publishDate}
+          readingTime={post.body ? getReadingTime(post.body) : 5}
+          category={post.data.category}
+        />
+      ))}
+    </div>
+  </section>
+)}

@@ -1,0 +1,134 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import CTASection from '../components/CTASection.astro';
+import FAQSection from '../components/FAQSection.astro';
+import { generateArticleSchema, generateFAQSchema } from '../utils/schema';
+import { formatDate } from '../utils/format-date';
+import { getReadingTime } from '../utils/reading-time';
+
+interface Props {
+  title: string;
+  description: string;
+  publishDate: Date;
+  updatedDate?: Date;
+  author: string;
+  authorBio?: string;
+  category?: string;
+  tags?: string[];
+  faqItems?: { question: string; answer: string }[];
+  headings: { depth: number; slug: string; text: string }[];
+  body: string;
+}
+
+const { title, description, publishDate, updatedDate, author, authorBio, category, tags, faqItems, headings, body } = Astro.props;
+
+const readingTime = getReadingTime(body);
+
+const schemas: Record<string, unknown>[] = [
+  generateArticleSchema({
+    title,
+    description,
+    url: `https://lotusreel.com${Astro.url.pathname}`,
+    datePublished: publishDate.toISOString(),
+    dateModified: updatedDate?.toISOString(),
+    author,
+    authorBio,
+  }),
+];
+
+if (faqItems && faqItems.length > 0) {
+  schemas.push(generateFAQSchema(faqItems));
+}
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Blog', href: '/blog/' },
+  { name: title },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogType="article"
+  schemas={schemas}
+  article={{
+    publishedTime: publishDate.toISOString(),
+    modifiedTime: updatedDate?.toISOString(),
+    author,
+    section: category,
+    tags,
+  }}
+>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <article class="py-8 lg:py-12">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Article Header -->
+      {category && (
+        <span class="text-sm font-semibold text-primary-700 uppercase tracking-wider">{category}</span>
+      )}
+      <h1 class="text-3xl lg:text-4xl font-extrabold text-neutral-900 mt-2 mb-4 leading-tight">{title}</h1>
+
+      <div class="flex flex-wrap items-center gap-4 text-sm text-neutral-500 mb-8 pb-8 border-b border-neutral-200">
+        <span>By <strong class="text-neutral-700">{author}</strong></span>
+        <span>&middot;</span>
+        <time datetime={publishDate.toISOString()}>{formatDate(publishDate)}</time>
+        {updatedDate && (
+          <>
+            <span>&middot;</span>
+            <span>Updated {formatDate(updatedDate)}</span>
+          </>
+        )}
+        <span>&middot;</span>
+        <span>{readingTime} min read</span>
+      </div>
+
+      <!-- Table of Contents -->
+      <TableOfContents headings={headings} />
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <slot />
+      </div>
+
+      <!-- FAQ Section if present -->
+      {faqItems && faqItems.length > 0 && (
+        <div class="mt-16">
+          <FAQSection items={faqItems} title="Frequently Asked Questions" includeSchema={false} />
+        </div>
+      )}
+
+      <!-- Newsletter CTA -->
+      <div class="mt-12 p-8 bg-neutral-50 rounded-xl border border-neutral-200 text-center">
+        <h3 class="text-xl font-bold text-neutral-900 mb-2">Get More Video Production Insights</h3>
+        <p class="text-neutral-600 mb-4">Subscribe to the Lotus Reel Insider for weekly tips and behind-the-scenes content.</p>
+        <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+          <input
+            type="email"
+            placeholder="Your email address"
+            class="flex-1 px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+            required
+          />
+          <button type="submit" class="px-6 py-3 bg-primary-700 text-white font-semibold rounded-lg hover:bg-primary-800 transition-colors">
+            Subscribe
+          </button>
+        </form>
+      </div>
+
+      <!-- Tags -->
+      {tags && tags.length > 0 && (
+        <div class="mt-8 flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <span class="px-3 py-1 text-xs font-medium bg-neutral-100 text-neutral-600 rounded-full">{tag}</span>
+          ))}
+        </div>
+      )}
+    </div>
+  </article>
+
+  <!-- CTA -->
+  <CTASection />
+</BaseLayout>

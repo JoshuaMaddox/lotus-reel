@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PricingTable from '../../components/PricingTable.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import CTASection from '../../components/CTASection.astro';
+import PricingCalculator from '../../components/islands/PricingCalculator';
+import { pricingFactors } from '../../data/pricing';
+import { generateFAQSchema } from '../../utils/schema';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Pricing' },
+];
+
+const pricingFaq = [
+  { question: 'How much does video production cost in Bangkok?', answer: 'Video production in Bangkok starts from approximately 18,000 THB (~$500) for basic video editing services. Corporate videos typically start from 52,000 THB (~$1,500), and commercial productions from 105,000 THB (~$3,000). Most projects fall in the 50,000–200,000 THB ($1,400–$5,700) range. We provide free, detailed quotes for every project.' },
+  { question: 'Why are your prices transparent when most competitors don\'t show prices?', answer: 'We believe transparency builds trust. You deserve to know approximate costs before reaching out. While every project is unique and final pricing depends on specific requirements, our published rates give you a realistic starting point for budgeting.' },
+  { question: 'Is video production in Bangkok cheaper than other countries?', answer: 'Yes, significantly. Bangkok offers 40–60% cost savings compared to equivalent production quality in Singapore, Hong Kong, Australia, or Western countries. This is due to competitive crew rates, lower studio costs, and excellent local talent — not lower quality.' },
+  { question: 'What payment terms do you offer?', answer: 'We typically work with 50% deposit to begin production and 50% upon delivery. For larger projects (over 300,000 THB), we offer milestone-based payments split into 3 installments. We accept bank transfer, credit card, and international wire transfer.' },
+  { question: 'Are there any hidden fees?', answer: 'Never. Our quotes are comprehensive and include all production costs. If any additional costs arise during production (rare), we discuss them with you before proceeding. What we quote is what you pay.' },
+  { question: 'Can I get a discount for multiple videos?', answer: 'Yes! We offer package pricing for multi-video projects and monthly retainer rates for ongoing content needs. Retainer clients typically save 15–25% compared to individual project pricing. Contact us to discuss your ongoing needs.' },
+  { question: 'Do prices include music and licensing?', answer: 'Yes, our standard packages include licensed royalty-free music. If you require specific commercial music or popular tracks, additional licensing fees apply and are quoted separately.' },
+  { question: 'What if my project doesn\'t fit standard pricing?', answer: 'No problem — most projects are custom. Use our pricing calculator for a rough estimate, then contact us for a detailed, tailored quote. Our consultations are always free.' },
+];
+
+const schemas = [generateFAQSchema(pricingFaq)];
+---
+
+<BaseLayout
+  title="Video Production Pricing in Bangkok — Transparent Rates [2026]"
+  description="Transparent video production pricing in Bangkok, Thailand. Corporate videos from $1,500, social media from $700, commercials from $3,000. Free quotes within 24 hours."
+  schemas={schemas}
+>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <!-- Hero -->
+  <section class="py-12 lg:py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl">
+        <h1 class="text-4xl lg:text-5xl font-extrabold text-neutral-900 mb-6">
+          Video Production Pricing in Bangkok — Transparent Rates
+        </h1>
+        <p class="text-lg text-neutral-600 mb-4">
+          Video production in Bangkok starts from <strong class="text-primary-700">25,000 THB (~$700)</strong> for simple projects and scales based on complexity, duration, and deliverables. Below you'll find our transparent starting rates for every service we offer.
+        </p>
+        <p class="text-neutral-500">
+          Every project is unique. Use our rates as a guide, try our pricing calculator, or contact us for a free, detailed quote.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Table -->
+  <section class="py-12 bg-neutral-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl font-bold text-neutral-900 mb-8">Starting Rates by Service</h2>
+      <PricingTable />
+      <p class="mt-6 text-sm text-neutral-500">* All prices are starting rates. Final pricing depends on project scope, complexity, and specific requirements.</p>
+    </div>
+  </section>
+
+  <!-- Pricing Calculator -->
+  <section class="py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-12 items-start">
+        <div>
+          <h2 class="text-2xl font-bold text-neutral-900 mb-4">What Affects Video Production Cost?</h2>
+          <p class="text-neutral-600 mb-8">Several factors determine the final cost of your video project. Understanding these helps you budget effectively.</p>
+          <div class="space-y-4">
+            {pricingFactors.map((factor) => (
+              <div class="flex gap-4">
+                <div class="w-2 h-2 bg-primary-500 rounded-full mt-2 flex-shrink-0"></div>
+                <div>
+                  <p class="font-semibold text-neutral-900">{factor.factor}</p>
+                  <p class="text-sm text-neutral-600">{factor.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <PricingCalculator client:visible />
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <FAQSection items={pricingFaq} title="Pricing FAQ" includeSchema={false} />
+
+  <!-- CTA -->
+  <CTASection
+    title="Get Your Custom Quote"
+    subtitle="Every project is unique. Tell us about yours and we'll provide a detailed, no-obligation quote within 24 hours."
+    ctaText="Request a Free Quote"
+  />
+</BaseLayout>

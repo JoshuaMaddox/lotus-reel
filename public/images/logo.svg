@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40">
+  <defs>
+    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0d9488"/>
+      <stop offset="100%" style="stop-color:#14b8a6"/>
+    </linearGradient>
+  </defs>
+  <!-- Lotus icon -->
+  <g transform="translate(5, 4)">
+    <!-- Center petal -->
+    <ellipse cx="16" cy="16" rx="6" ry="14" fill="url(#logoGrad)" opacity="0.9"/>
+    <!-- Left petal -->
+    <ellipse cx="16" cy="16" rx="6" ry="14" fill="url(#logoGrad)" opacity="0.7" transform="rotate(-30, 16, 16)"/>
+    <!-- Right petal -->
+    <ellipse cx="16" cy="16" rx="6" ry="14" fill="url(#logoGrad)" opacity="0.7" transform="rotate(30, 16, 16)"/>
+    <!-- Far left petal -->
+    <ellipse cx="16" cy="16" rx="5" ry="12" fill="url(#logoGrad)" opacity="0.5" transform="rotate(-55, 16, 16)"/>
+    <!-- Far right petal -->
+    <ellipse cx="16" cy="16" rx="5" ry="12" fill="url(#logoGrad)" opacity="0.5" transform="rotate(55, 16, 16)"/>
+  </g>
+  <!-- Text -->
+  <text x="46" y="17" fill="#0f172a" font-family="Georgia, 'Times New Roman', serif" font-size="16" font-weight="bold" letter-spacing="1">LOTUS</text>
+  <text x="46" y="34" fill="#0d9488" font-family="Georgia, 'Times New Roman', serif" font-size="16" font-weight="normal" letter-spacing="3">REEL</text>
+</svg>

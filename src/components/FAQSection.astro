@@ -1,0 +1,35 @@
+---
+import Schema from './Schema.astro';
+import { generateFAQSchema } from '../utils/schema';
+
+interface Props {
+  items: { question: string; answer: string }[];
+  title?: string;
+  includeSchema?: boolean;
+}
+
+const { items, title = 'Frequently Asked Questions', includeSchema = true } = Astro.props;
+const faqSchema = includeSchema ? generateFAQSchema(items) : null;
+---
+
+<section class="py-16 lg:py-20">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-3xl font-bold text-neutral-900 text-center mb-12">{title}</h2>
+    <div class="space-y-4">
+      {items.map((item, index) => (
+        <details class="group bg-white border border-neutral-200 rounded-lg">
+          <summary class="flex items-center justify-between cursor-pointer px-6 py-4 text-left font-medium text-neutral-900 hover:text-primary-700 transition-colors">
+            <span>{item.question}</span>
+            <svg class="w-5 h-5 text-neutral-400 group-open:rotate-180 transition-transform flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="px-6 pb-4 text-neutral-600 leading-relaxed">
+            {item.answer}
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+  {faqSchema && <Schema schemas={[faqSchema]} />}
+</section>

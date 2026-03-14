@@ -1,0 +1,54 @@
+---
+import { pricingTiers } from '../data/pricing';
+
+interface Props {
+  showAll?: boolean;
+}
+
+const { showAll = true } = Astro.props;
+const tiers = showAll ? pricingTiers : pricingTiers.slice(0, 4);
+---
+
+<div class="overflow-x-auto">
+  <table class="w-full text-left border-collapse">
+    <thead>
+      <tr class="border-b-2 border-neutral-200">
+        <th class="py-4 px-4 text-sm font-semibold text-neutral-900">Service</th>
+        <th class="py-4 px-4 text-sm font-semibold text-neutral-900">Starting From</th>
+        <th class="py-4 px-4 text-sm font-semibold text-neutral-900 hidden md:table-cell">What's Included</th>
+        <th class="py-4 px-4"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {tiers.map((tier) => (
+        <tr class="border-b border-neutral-100 hover:bg-neutral-50 transition-colors">
+          <td class="py-4 px-4">
+            <p class="font-semibold text-neutral-900">{tier.service}</p>
+            <p class="text-sm text-neutral-500 mt-1">{tier.description}</p>
+          </td>
+          <td class="py-4 px-4">
+            <p class="text-lg font-bold text-primary-700">${tier.startingPrice.toLocaleString()}</p>
+            <p class="text-xs text-neutral-500">{tier.startingPriceTHB.toLocaleString()} THB</p>
+          </td>
+          <td class="py-4 px-4 hidden md:table-cell">
+            <ul class="text-sm text-neutral-600 space-y-1">
+              {tier.includes.map((item) => (
+                <li class="flex items-start gap-2">
+                  <svg class="w-4 h-4 text-primary-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </td>
+          <td class="py-4 px-4">
+            <a href={`/services/${tier.slug}/`} class="text-sm font-semibold text-primary-700 hover:text-primary-800 whitespace-nowrap">
+              Learn more &rarr;
+            </a>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

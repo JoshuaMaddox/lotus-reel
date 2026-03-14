@@ -1,0 +1,169 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import TrustBar from '../components/TrustBar.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import TestimonialCard from '../components/TestimonialCard.astro';
+import CTASection from '../components/CTASection.astro';
+import MultiStepForm from '../components/islands/MultiStepForm';
+import QuickQuoteWidget from '../components/islands/QuickQuoteWidget';
+import { services } from '../data/services';
+import { testimonials } from '../data/testimonials';
+import { generateOrganizationSchema, generateWebSiteSchema, generateAggregateRatingSchema } from '../utils/schema';
+
+const schemas = [
+  generateOrganizationSchema(),
+  generateWebSiteSchema(),
+  generateAggregateRatingSchema(),
+];
+---
+
+<BaseLayout
+  title="Video Production Company in Bangkok, Thailand | Lotus Reel"
+  description="Professional video production in Bangkok. Corporate videos, commercials, social media content, event videography, animation, and post-production. Get a free quote today."
+  schemas={schemas}
+>
+  <!-- Hero -->
+  <Hero
+    title="Bangkok's Premier Video Production Company"
+    subtitle="Award-winning video production for brands, agencies, and organizations across Thailand and Southeast Asia. From concept to final cut — we bring your vision to life."
+    ctaText="Get a Free Quote"
+    ctaHref="/contact/"
+    secondaryCtaText="See Our Work"
+    secondaryCtaHref="/portfolio/"
+    size="large"
+  />
+
+  <!-- Trust Bar -->
+  <TrustBar />
+
+  <!-- Services -->
+  <section class="py-16 lg:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">Our Video Production Services</h2>
+        <p class="text-lg text-neutral-600 max-w-2xl mx-auto">
+          Everything you need to create compelling video content — from strategy and production to post-production and delivery.
+        </p>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {services.map((service) => (
+          <ServiceCard
+            title={service.shortTitle}
+            description={service.description}
+            href={`/services/${service.slug}/`}
+            icon={service.icon}
+            price={service.startingPrice}
+          />
+        ))}
+      </div>
+      <div class="text-center mt-8">
+        <a href="/services/" class="text-primary-700 font-semibold hover:text-primary-800 transition-colors">
+          View all services &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Lotus Reel -->
+  <section class="py-16 lg:py-20 bg-neutral-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">Why Choose Lotus Reel?</h2>
+        <p class="text-lg text-neutral-600 max-w-2xl mx-auto">
+          We're not just another video production company. Here's what sets us apart.
+        </p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="text-center p-6">
+          <div class="w-14 h-14 bg-primary-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <svg class="w-7 h-7 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-neutral-900 mb-2">Transparent Pricing</h3>
+          <p class="text-neutral-600">No hidden fees, no surprises. We publish our starting rates and provide detailed quotes upfront so you know exactly what to expect.</p>
+        </div>
+        <div class="text-center p-6">
+          <div class="w-14 h-14 bg-primary-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <svg class="w-7 h-7 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-neutral-900 mb-2">Fast Turnaround</h3>
+          <p class="text-neutral-600">Social media content in 48 hours, corporate videos in 3 weeks. We respect your deadlines without compromising on quality.</p>
+        </div>
+        <div class="text-center p-6">
+          <div class="w-14 h-14 bg-primary-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <svg class="w-7 h-7 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-neutral-900 mb-2">Bilingual Expertise</h3>
+          <p class="text-neutral-600">Fluent in English and Thai with deep understanding of both local and international markets. Seamless communication guaranteed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="py-12 bg-primary-700 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div>
+          <p class="text-4xl font-extrabold">200+</p>
+          <p class="text-white/90 mt-1">Projects Completed</p>
+        </div>
+        <div>
+          <p class="text-4xl font-extrabold">50+</p>
+          <p class="text-white/90 mt-1">Happy Clients</p>
+        </div>
+        <div>
+          <p class="text-4xl font-extrabold">8+</p>
+          <p class="text-white/90 mt-1">Years Experience</p>
+        </div>
+        <div>
+          <p class="text-4xl font-extrabold">4.9</p>
+          <p class="text-white/90 mt-1">Average Rating</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-16 lg:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">What Our Clients Say</h2>
+        <p class="text-lg text-neutral-600">Don't just take our word for it.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        {testimonials.slice(0, 3).map((testimonial) => (
+          <TestimonialCard
+            quote={testimonial.quote}
+            name={testimonial.name}
+            title={testimonial.title}
+            company={testimonial.company}
+            rating={testimonial.rating}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA with Form -->
+  <section class="py-16 lg:py-20 bg-neutral-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">Ready to Start Your Project?</h2>
+        <p class="text-lg text-neutral-600 max-w-2xl mx-auto">
+          Tell us about your video project and get a free, no-obligation quote within 24 hours.
+        </p>
+      </div>
+      <MultiStepForm client:visible />
+    </div>
+  </section>
+
+  <!-- Quick Quote Widget -->
+  <QuickQuoteWidget client:idle />
+</BaseLayout>

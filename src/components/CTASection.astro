@@ -1,0 +1,35 @@
+---
+interface Props {
+  title?: string;
+  subtitle?: string;
+  ctaText?: string;
+  ctaHref?: string;
+  variant?: 'primary' | 'dark';
+}
+
+const {
+  title = 'Ready to Start Your Project?',
+  subtitle = 'Get a free consultation and quote. No commitment — just a conversation about your video goals.',
+  ctaText = 'Get Your Free Quote',
+  ctaHref = '/contact/',
+  variant = 'primary',
+} = Astro.props;
+
+const bgClass = variant === 'dark'
+  ? 'bg-neutral-900 text-white'
+  : 'bg-primary-700 text-white';
+---
+
+<section class={`py-16 lg:py-20 ${bgClass}`}>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="text-3xl lg:text-4xl font-bold mb-4">{title}</h2>
+    <p class="text-lg opacity-90 mb-8 max-w-2xl mx-auto">{subtitle}</p>
+    <a
+      href={ctaHref}
+      class="inline-flex items-center px-8 py-4 bg-white text-neutral-900 font-semibold rounded-lg hover:bg-neutral-100 transition-colors text-lg"
+    >
+      {ctaText}
+    </a>
+    <p class="mt-4 text-sm text-white/90">Free consultation. No commitment.</p>
+  </div>
+</section>

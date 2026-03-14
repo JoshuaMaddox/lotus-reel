@@ -1,0 +1,28 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title = 'Trusted by Industry Leaders' } = Astro.props;
+
+const placeholderLogos = [
+  'Global Corp', 'Tech Ventures', 'Asia Pacific Media', 'Horizon Group',
+  'Summit Hotels', 'Pacific Digital', 'Nova Brands', 'Metro Events',
+  'Capital Partners', 'Orient Solutions', 'Pinnacle Hospitality', 'Vantage Media',
+  'Apex Industries', 'Prime Properties', 'Stellar Group', 'Atlas Ventures',
+  'Zenith Corp', 'Meridian Agency', 'Cosmos Digital', 'Eclipse Studios',
+];
+---
+
+<section class="py-12 bg-neutral-50 border-y border-neutral-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <p class="text-center text-sm font-semibold text-neutral-500 uppercase tracking-wider mb-8">{title}</p>
+    <div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-10 gap-6 items-center justify-items-center">
+      {placeholderLogos.map((name) => (
+        <div class="flex items-center justify-center h-10 px-3 hover:opacity-80 transition-opacity">
+          <span class="text-xs font-bold text-neutral-500 uppercase tracking-widest whitespace-nowrap">{name}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

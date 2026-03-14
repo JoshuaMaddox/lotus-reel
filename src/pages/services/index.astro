@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import CTASection from '../../components/CTASection.astro';
+import { services } from '../../data/services';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Services' },
+];
+---
+
+<BaseLayout
+  title="Video Production Services in Bangkok, Thailand"
+  description="Full-service video production company in Bangkok. Corporate video, commercials, social media content, event videography, animation, drone footage, and post-production."
+>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <section class="py-12 lg:py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mb-12">
+        <h1 class="text-4xl lg:text-5xl font-extrabold text-neutral-900 mb-6">Video Production Services in Bangkok</h1>
+        <p class="text-lg text-neutral-600">
+          Lotus Reel offers end-to-end video production services in Bangkok, Thailand. Whether you need a corporate profile video, a high-impact commercial, social media content, or event coverage — our experienced team delivers cinema-quality results on time and on budget.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {services.map((service) => (
+          <ServiceCard
+            title={service.shortTitle}
+            description={service.description}
+            href={`/services/${service.slug}/`}
+            icon={service.icon}
+            price={service.startingPrice}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection />
+</BaseLayout>

@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CTASection from '../../components/CTASection.astro';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Portfolio' },
+];
+
+const projects = [
+  { title: 'Brand Story Film — Horizon Ventures', category: 'Corporate Video', description: 'A 3-minute brand story capturing the company\'s mission, culture, and impact across Southeast Asia.', result: '2.5M views across platforms' },
+  { title: 'Product Launch Campaign — Nova Digital', category: 'Commercial', description: 'Multi-platform video campaign for a major product launch including TVC, social cuts, and event coverage.', result: '340% increase in pre-orders' },
+  { title: 'Social Media Content Series — Pinnacle Hospitality', category: 'Social Media', description: 'Monthly content package of 15 short-form videos for Instagram, TikTok, and YouTube Shorts.', result: '180% increase in engagement' },
+  { title: 'Annual Conference — Summit Group Asia', category: 'Event Videography', description: 'Full-day multi-camera coverage of 500+ attendee conference with live streaming and highlight reel.', result: 'Delivered 48hr highlight reel' },
+  { title: 'Explainer Video — FinTech Startup', category: 'Animation', description: '90-second animated explainer video breaking down a complex financial product for retail investors.', result: '22% increase in sign-ups' },
+  { title: 'Luxury Resort Showcase — The Orchid Residence', category: 'Drone & Aerial', description: 'Cinematic aerial and ground-level showcase of a luxury Bangkok riverside hotel and amenities.', result: '45% increase in direct bookings' },
+];
+---
+
+<BaseLayout
+  title="Portfolio — Video Production Work | Lotus Reel"
+  description="Explore our video production portfolio. Corporate videos, commercials, social media content, event coverage, and animation projects produced in Bangkok, Thailand."
+>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <section class="py-12 lg:py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mb-12">
+        <h1 class="text-4xl lg:text-5xl font-extrabold text-neutral-900 mb-6">Our Work</h1>
+        <p class="text-lg text-neutral-600">
+          A selection of recent projects showcasing our range of video production capabilities. Each project is crafted to deliver measurable results for our clients.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        {projects.map((project) => (
+          <div class="group bg-white rounded-xl border border-neutral-200 overflow-hidden hover:border-primary-300 hover:shadow-lg transition-all">
+            <!-- Placeholder video area -->
+            <div class="aspect-video bg-neutral-900 flex items-center justify-center relative">
+              <svg class="w-16 h-16 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span class="absolute top-3 left-3 px-2 py-1 bg-primary-700 text-white text-xs font-semibold rounded">{project.category}</span>
+            </div>
+            <div class="p-6">
+              <h3 class="text-lg font-bold text-neutral-900 mb-2">{project.title}</h3>
+              <p class="text-sm text-neutral-600 mb-4">{project.description}</p>
+              <div class="flex items-center gap-2 text-sm">
+                <svg class="w-4 h-4 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                </svg>
+                <span class="font-semibold text-primary-700">{project.result}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection title="Want Similar Results?" subtitle="Let's discuss your video project. Free consultation, no commitment." />
+</BaseLayout>

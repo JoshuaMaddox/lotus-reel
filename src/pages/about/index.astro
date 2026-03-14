@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CTASection from '../../components/CTASection.astro';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'About' },
+];
+
+const values = [
+  { title: 'Transparency', description: 'Clear pricing, honest timelines, and open communication at every stage.' },
+  { title: 'Quality', description: 'Cinema-grade production quality on every project, regardless of budget.' },
+  { title: 'Partnership', description: 'We\'re an extension of your team, not just a vendor. Your success is our success.' },
+  { title: 'Innovation', description: 'Staying ahead with the latest techniques, equipment, and creative approaches.' },
+];
+
+const team = [
+  { name: 'Creative Director', role: 'Director / Cinematographer', bio: '10+ years in commercial and corporate video production across Southeast Asia.' },
+  { name: 'Lead Editor', role: 'Post-Production Lead', bio: 'Expert in narrative editing, color grading, and motion graphics with broadcast experience.' },
+  { name: 'Production Manager', role: 'Operations & Logistics', bio: 'Ensures every shoot runs smoothly — permits, scheduling, crew coordination, and client communication.' },
+  { name: 'Content Strategist', role: 'Marketing & Strategy', bio: 'Bridges the gap between creative production and marketing objectives for maximum ROI.' },
+];
+
+const equipment = [
+  'Sony FX6 / Canon C70 cinema cameras',
+  'DJI Inspire 3 & Mavic 3 Pro drones',
+  'Aputure & ARRI lighting systems',
+  'Sennheiser & DJI wireless audio',
+  'DJI RS4 Pro gimbal stabilizers',
+  'DaVinci Resolve color grading suite',
+  'Adobe Creative Suite (Premiere, After Effects)',
+  'Professional grip & electric package',
+];
+---
+
+<BaseLayout
+  title="About Lotus Reel — Video Production Company in Bangkok"
+  description="Learn about Lotus Reel, Bangkok's professional video production company. Our team, our process, our equipment, and why clients trust us with their most important video projects."
+>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <!-- Hero -->
+  <section class="py-12 lg:py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl">
+        <h1 class="text-4xl lg:text-5xl font-extrabold text-neutral-900 mb-6">About Lotus Reel</h1>
+        <p class="text-lg text-neutral-600 mb-4">
+          Lotus Reel is a Bangkok-based video production company serving brands, agencies, and organizations across Thailand and Southeast Asia. We combine international production standards with deep local expertise to create video content that delivers results.
+        </p>
+        <p class="text-neutral-600">
+          Founded on the belief that great video shouldn't be inaccessible, we offer transparent pricing, clear processes, and cinema-quality production at competitive Bangkok rates.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="py-12 bg-neutral-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl font-bold text-neutral-900 mb-8">Our Values</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {values.map((value) => (
+          <div class="bg-white rounded-lg border border-neutral-200 p-6">
+            <h3 class="text-lg font-bold text-neutral-900 mb-2">{value.title}</h3>
+            <p class="text-sm text-neutral-600">{value.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl font-bold text-neutral-900 mb-8">Our Team</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {team.map((member) => (
+          <div class="text-center">
+            <div class="w-24 h-24 bg-neutral-200 rounded-full mx-auto mb-4 flex items-center justify-center">
+              <svg class="w-10 h-10 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </div>
+            <h3 class="font-bold text-neutral-900">{member.name}</h3>
+            <p class="text-sm text-primary-700 font-medium">{member.role}</p>
+            <p class="text-sm text-neutral-500 mt-2">{member.bio}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="py-12 bg-neutral-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl font-bold text-neutral-900 mb-8">Our Production Process</h2>
+      <div class="grid md:grid-cols-5 gap-4">
+        {['Discovery & Brief', 'Concept & Planning', 'Pre-Production', 'Production', 'Post & Delivery'].map((step, i) => (
+          <div class="relative text-center p-4">
+            <div class="w-10 h-10 bg-primary-700 text-white rounded-full flex items-center justify-center font-bold text-sm mx-auto mb-3">
+              {i + 1}
+            </div>
+            <p class="font-semibold text-neutral-900 text-sm">{step}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Equipment -->
+  <section class="py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl font-bold text-neutral-900 mb-8">Our Equipment</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        {equipment.map((item) => (
+          <div class="flex items-center gap-3 bg-neutral-50 rounded-lg p-3">
+            <svg class="w-5 h-5 text-primary-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span class="text-sm text-neutral-700">{item}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection />
+</BaseLayout>

@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import BlogPostCard from '../../components/BlogPostCard.astro';
+import { getCollection } from 'astro:content';
+import { getReadingTime } from '../../utils/reading-time';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Blog' },
+];
+
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+---
+
+<BaseLayout
+  title="Video Production Blog — Tips, Guides & Insights | Lotus Reel"
+  description="Video production insights from Bangkok. Guides on pricing, production process, filming locations, marketing strategy, and more from the Lotus Reel team."
+>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <section class="py-12 lg:py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mb-12">
+        <h1 class="text-4xl lg:text-5xl font-extrabold text-neutral-900 mb-4">Blog</h1>
+        <p class="text-lg text-neutral-600">
+          Insights, guides, and behind-the-scenes content from Bangkok's video production experts.
+        </p>
+      </div>
+
+      {posts.length === 0 ? (
+        <p class="text-neutral-500">Coming soon — stay tuned for our first articles!</p>
+      ) : (
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {posts.map((post) => (
+            <BlogPostCard
+              title={post.data.title}
+              description={post.data.description}
+              href={`/blog/${post.id}/`}
+              publishDate={post.data.publishDate}
+              readingTime={post.body ? getReadingTime(post.body) : 5}
+              category={post.data.category}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>

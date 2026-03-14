@@ -1,0 +1,126 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import FAQSection from '../components/FAQSection.astro';
+import CTASection from '../components/CTASection.astro';
+import { generateServiceSchema, generateHowToSchema, generateFAQSchema } from '../utils/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  shortTitle: string;
+  slug: string;
+  startingPrice: string;
+  startingPriceTHB: string;
+  features: string[];
+  faq: { question: string; answer: string }[];
+  process: { step: string; description: string }[];
+}
+
+const { title, description, shortTitle, slug, startingPrice, startingPriceTHB, features, faq, process } = Astro.props;
+
+const schemas = [
+  generateServiceSchema({
+    name: title,
+    description,
+    url: `https://lotusreel.com/services/${slug}/`,
+    startingPrice: parseInt(startingPrice.replace(/[^0-9]/g, '')),
+    currency: 'USD',
+  }),
+  generateHowToSchema({
+    name: `Our ${shortTitle} Process`,
+    description: `Step-by-step process for ${shortTitle.toLowerCase()} at Lotus Reel.`,
+    steps: process.map((p) => ({ name: p.step, text: p.description })),
+  }),
+  generateFAQSchema(faq),
+];
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Services', href: '/services/' },
+  { name: shortTitle },
+];
+---
+
+<BaseLayout title={title} description={description} schemas={schemas}>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <!-- Hero Section -->
+  <section class="py-12 lg:py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl">
+        <h1 class="text-4xl lg:text-5xl font-extrabold text-neutral-900 mb-6">{title}</h1>
+        <p class="text-lg text-neutral-600 mb-6">{description}</p>
+        <div class="flex items-center gap-6">
+          <a href="/contact/" class="inline-flex items-center px-6 py-3 bg-primary-700 text-white font-semibold rounded-lg hover:bg-primary-800 transition-colors">
+            Get a Free Quote
+          </a>
+          <div>
+            <p class="text-sm text-neutral-500">Starting from</p>
+            <p class="text-xl font-bold text-primary-700">{startingPrice} <span class="text-sm font-normal text-neutral-500">/ {startingPriceTHB}</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="py-12 bg-neutral-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl font-bold text-neutral-900 mb-8">What We Offer</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {features.map((feature) => (
+          <div class="flex items-start gap-3 bg-white rounded-lg border border-neutral-200 p-4">
+            <svg class="w-5 h-5 text-primary-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span class="text-neutral-700">{feature}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl font-bold text-neutral-900 mb-12">Our {shortTitle} Process</h2>
+      <div class="space-y-8">
+        {process.map((step, index) => (
+          <div class="flex gap-6">
+            <div class="flex-shrink-0 w-10 h-10 bg-primary-700 text-white rounded-full flex items-center justify-center font-bold text-sm">
+              {index + 1}
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-neutral-900 mb-1">{step.step}</h3>
+              <p class="text-neutral-600">{step.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Quick Look -->
+  <section class="py-12 bg-neutral-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl font-bold text-neutral-900 mb-4">{shortTitle} Pricing</h2>
+      <p class="text-neutral-600 mb-6">
+        {shortTitle} starts from <strong class="text-primary-700">{startingPrice}</strong> ({startingPriceTHB}).
+        Final pricing depends on project scope, complexity, and deliverables.
+      </p>
+      <a href="/pricing/" class="text-primary-700 font-semibold hover:text-primary-800 transition-colors">
+        View full pricing guide &rarr;
+      </a>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <FAQSection items={faq} title={`${shortTitle} FAQ`} includeSchema={false} />
+
+  <!-- CTA -->
+  <CTASection
+    title={`Ready to Start Your ${shortTitle} Project?`}
+    subtitle="Tell us about your project and get a free, no-obligation quote within 24 hours."
+  />
+</BaseLayout>
